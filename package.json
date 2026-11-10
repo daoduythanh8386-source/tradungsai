@@ -1,13 +1,15 @@
 {
   "name": "tradungsai",
   "version": "1.0.0",
-  "description": "Tra cứu dung sai Oristar - TQM.QĐ02-03",
+  "description": "Tra dung sai - Tra cứu dung sai Oristar theo TQM.QĐ02-03",
   "main": "electron/main.js",
   "scripts": {
     "start": "electron .",
-    "build:exe": "electron-builder --win",
-    "build:apk": "npx cap sync && npx cap build android",
-    "build:all": "npm run build:exe && npm run build:apk"
+    "icons": "python3 tools/make_icon.py",
+    "build:exe": "electron-builder --win --publish never",
+    "android:add": "cap add android",
+    "android:icons": "capacitor-assets generate --android --iconBackgroundColor \"#0d47b8\" --iconBackgroundColorDark \"#0d47b8\"",
+    "android:sync": "cap sync android"
   },
   "dependencies": {
     "@capacitor/core": "^6.1.2"
@@ -16,27 +18,37 @@
     "electron": "^33.2.0",
     "electron-builder": "^25.1.8",
     "@capacitor/cli": "^6.1.2",
-    "@capacitor/android": "^6.1.2"
+    "@capacitor/android": "^6.1.2",
+    "@capacitor/assets": "^3.0.5"
   },
   "build": {
     "appId": "com.tradungsai.app",
-    "productName": "TraDungSai",
+    "productName": "Tra dung sai",
     "directories": {
       "output": "dist"
     },
     "files": [
       "electron/**/*",
       "www/**/*",
+      "build/icon.png",
       "package.json"
     ],
     "win": {
       "target": "nsis",
-      "icon": "www/icon-512.png"
+      "icon": "build/icon.png",
+      "artifactName": "TraDungSai-Setup-${version}.${ext}"
     },
     "nsis": {
       "oneClick": false,
       "allowToChangeDirectory": true,
-      "createDesktopShortcut": true
-    }
+      "createDesktopShortcut": true,
+      "shortcutName": "Tra dung sai"
+    },
+    "copyright": "Copyright ® Đào Duy Thanh. Mọi điều khoản nội dung được bảo lưu."
+  },
+  "author": "Đào Duy Thanh",
+  "license": "UNLICENSED",
+  "engines": {
+    "node": ">=20"
   }
 }

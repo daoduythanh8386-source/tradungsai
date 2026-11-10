@@ -1,24 +1,48 @@
-const { app, BrowserWindow, Menu } = require('electron');
+const { app, BrowserWindow, Menu, shell } = require('electron');
 const path = require('path');
 
-// Ẩn menu mặc định
 Menu.setApplicationMenu(null);
 
+// Chỉ cho mở 1 cửa sổ
+if (!app.requestSingleInstanceLock()) {
+  app.quit();
+}
+
+let mainWindow;
+
 function createWindow() {
-  const mainWindow = new BrowserWindow({
-    width: 1200,
+  mainWindow = new BrowserWindow({
+    width: 1100,
     height: 850,
-    title: 'Tra Cứu Dung Sai Oristar',
+    minWidth: 360,
+    minHeight: 600,
+    title: 'Tra dung sai',
+    icon: path.join(__dirname, '../build/icon.png'),
+    backgroundColor: '#eef2f9',
+    autoHideMenuBar: true,
     webPreferences: {
-      preload: path.join(__dirname, 'preload.js'),
       contextIsolation: true,
-      nodeIntegration: false
+      nodeIntegration: false,
+      sandbox: true
     }
   });
-
-  // Tải giao diện từ thư mục www/
+  mainWindow.setTitle('Tra dung sai');
   mainWindow.loadFile(path.join(__dirname, '../www/index.html'));
+
+  // Link ngoài (vd gọi điện) mở bằng ứng dụng hệ thống, không mở trong app
+  mainWindow.webContents.setWindowOpenHandler(({ url }) => {
+    if (/^(https?|tel|mailto):/i.test(url)) shell.openExternal(url);
+    return { action: 'deny' };
+  });
+  mainWindow.webContents.on('page-title-updated', e => e.preventDefault());
 }
+
+app.on('second-instance', () => {
+  if (mainWindow) {
+    if (mainWindow.isMinimized()) mainWindow.restore();
+    mainWindow.focus();
+  }
+});
 
 app.whenReady().then(createWindow);
 

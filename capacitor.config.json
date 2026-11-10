@@ -1,14 +1,9 @@
 {
   "appId": "com.tradungsai.app",
-  "appName": "TraDungSai",
+  "appName": "Tra dung sai",
   "webDir": "www",
   "server": {
     "androidScheme": "https"
   },
-  "android": {
-    "buildOptions": {
-      "keystorePath": "",
-      "keystoreAlias": ""
-    }
-  }
+  "android": {}
 }
