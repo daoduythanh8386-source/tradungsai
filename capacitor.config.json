@@ -1,1 +1,8 @@
-{"appId":"vn.oristar.dungsai","appName":"Dung sai Oristar","webDir":"www"}
+{
+  "appId": "com.tradungsai.app",
+  "appName": "TraDungSai",
+  "webDir": "www",
+  "server": {
+    "androidScheme": "https"
+  }
+}
