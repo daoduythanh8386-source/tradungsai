@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Tra cứu dung sai Oristar</title>
+<link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#0d47b8">
+<meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Dung sai">
+<link rel="apple-touch-icon" href="icon-192.png">
+<style>
+*{box-sizing:border-box}body{margin:0;font:16px system-ui,sans-serif;background:#eef2f9;color:#1a2433;padding-bottom:84px}
+header{background:#0d47b8;color:#fff;padding:calc(18px + env(safe-area-inset-top)) 16px 18px}
+h1{margin:0;font-size:22px}header p{margin:4px 0 0;opacity:.85;font-size:14px}
+section{display:none;padding:14px;max-width:640px;margin:auto}section.on{display:block}
+h2{font-size:18px;margin:6px 0 2px;color:#0d47b8}.sub{color:#5b6779;font-size:13px;margin:0 0 10px}
+label{display:block;font-size:13px;font-weight:600;margin:10px 0 4px}
+input,select{width:100%;padding:12px;font-size:16px;border:1px solid #b8c3d6;border-radius:10px;background:#fff}
+.g{display:grid;grid-template-columns:1fr 1fr;gap:10px}.h{display:none}
+button.go{width:100%;margin-top:16px;padding:14px;font-size:17px;font-weight:700;color:#fff;background:#0d47b8;border:0;border-radius:10px}
+.res{margin-top:14px}.c{background:#fff;border-left:5px solid #1b8a3a;border-radius:10px;padding:10px 14px;margin-bottom:8px}
+.c b{display:block;font-size:20px;color:#0d47b8}.c small{color:#5b6779}.c.e{border-color:#d98200;background:#fff7e8}
+nav{position:fixed;bottom:0;left:0;right:0;display:flex;background:#fff;border-top:1px solid #cdd6e6;padding-bottom:env(safe-area-inset-bottom)}
+nav button{flex:1;border:0;background:none;padding:10px 4px;font-size:12px;color:#5b6779}nav button b{display:block;font-size:20px}nav .on{color:#0d47b8;font-weight:700}
+img{width:100%;margin:8px 0;border-radius:8px;background:#fff}footer{text-align:center;color:#5b6779;font-size:12px;padding:10px}
+</style></head><body>
+<header><h1>Tra cứu dung sai Oristar</h1><p>Nhập kích thước, tra ngay tiêu chuẩn theo TQM.QĐ02-03 (lần ban hành 03, 25/10/2024)</p></header>
+
+<section id="A" class="on"><h2>A. Hàng cuộn xẻ băng</h2><p class="sub">Chiều rộng · camber · bavia</p>
+<label>Vật liệu</label><select id="am"><option value="cu">Đồng</option><option value="ss">Thép không gỉ</option><option value="al">Nhôm</option></select>
+<label>Tiêu chuẩn sản xuất</label><select id="as"><option value="n">Thường</option><option value="h">Cao</option></select>
+<div class="g"><div><label>Chiều rộng (mm)</label><input id="aw" inputmode="decimal" placeholder="vd 25"></div><div><label>Độ dày (mm)</label><input id="at" inputmode="decimal" placeholder="vd 0,3"></div></div>
+<button class="go" onclick="calcA()">Tra kết quả</button><div class="res" id="ra"></div></section>
+
+<section id="B"><h2>B. Cắt tấm, thanh, cây tròn</h2><p class="sub">Kích thước · vuông góc · song song · độ cong</p>
+<div class="g"><div><label>Vật liệu</label><select id="bm" onchange="bUI()"><option value="cu">Đồng</option><option value="al">Nhôm</option><option value="ss">Thép không gỉ</option><option value="be">Đồng bery</option></select></div>
+<div><label>Dạng sản phẩm</label><select id="bf" onchange="bUI()"><option value="p">Tấm</option><option value="r">Thanh / phi tròn</option></select></div></div>
+<div id="bo"><label>Xuất xứ (cho độ cong)</label><select id="bj" onchange="bUI()"><option value="o">Xuất xứ khác</option><option value="j">Nhật</option></select></div>
+<div id="bt" class="h"><label>Loại nhôm Nhật</label><select id="ba"><option value="2017">2017 / 17S</option><option value="5052">5052 / 52S</option><option value="6061">6061 / 61S</option><option value="7075">7075 / 75S</option></select></div>
+<div id="bp" class="h"><label>Gia công (bảng 3)</label><select id="bg"><option value="0">Gia công thô (máy cưa vòng)</option><option value="1">Gia công bán tinh (máy phay cơ)</option></select></div>
+<div class="g"><div><label>Độ dày / đường kính</label><input id="bT" inputmode="decimal" placeholder="mm"></div><div><label>Chiều rộng</label><input id="bW" inputmode="decimal" placeholder="mm"></div></div>
+<label>Chiều dài (mm)</label><input id="bL" inputmode="decimal" placeholder="mm">
+<p class="sub">Độ vuông góc và độ cong lấy cạnh lớn là chiều dài, cạnh nhỏ là chiều rộng.</p>
+<button class="go" onclick="calcB()">Tra kết quả</button><div class="res" id="rb"></div></section>
+
+<section id="C"><h2>C. Phay 4 mặt và 6 mặt</h2><p class="sub">Kích thước · vuông góc · song song · nhám</p>
+<div class="g"><div><label>Loại phay</label><select id="cp" onchange="cUI()"><option value="4">Phay 4 mặt</option><option value="6">Phay 6 mặt</option></select></div>
+<div><label>Vật liệu</label><select id="cm"><option value="0">Nhôm, đồng</option><option value="1">Thép</option></select></div></div>
+<div class="g"><div><label>Chiều dài (mm)</label><input id="cl" inputmode="decimal"></div><div><label>Chiều rộng (mm)</label><input id="cw" inputmode="decimal"></div></div>
+<div id="ct" class="h"><label>Chiều dày (mm)</label><input id="cd" inputmode="decimal"></div>
+<button class="go" onclick="calcC()">Tra kết quả</button><div class="res" id="rc"></div></section>
+
+<section id="D"><h2>Chi tiết bảng</h2><p class="sub">Ảnh các trang tiêu chuẩn TQM.QĐ02-03</p>
+<img src="img/p-3.jpg" alt="Trang 3"><img src="img/p-4.jpg" alt="Trang 4"><img src="img/p-5.jpg" alt="Trang 5"><img src="img/p-6.jpg" alt="Trang 6"><img src="img/p-7.jpg" alt="Trang 7"></section>
+<footer>Phát triển bởi Đào Duy Thanh · 0968311286</footer>
+<nav><button class="on" onclick="tab('A',this)"><b>A</b>Cuộn xẻ</button><button onclick="tab('B',this)"><b>B</b>Cắt tấm</button><button onclick="tab('C',this)"><b>C</b>Phay</button><button onclick="tab('D',this)"><b>≡</b>Bảng</button></nav>
+<script>
+const $=i=>document.getElementById(i),n=i=>parseFloat(String($(i).value).replace(',','.')),f=x=>String(x).replace('.',',');
+const lt=(u,v,m)=>{if(!(v>=m))return -1;for(let i=0;i<u.length;i++)if(v<u[i])return i;return -1};
+const le=(u,v,m)=>{if(!(v>=m))return -1;for(let i=0;i<u.length;i++)if(v<=u[i])return i;return -1};
+const R=(l,v,s)=>({l,v,s}),E=m=>({e:m});
+function show(id,rows){$(id).innerHTML=rows.map(r=>r.e?`<div class="c e">${r.e}</div>`:`<div class="c"><small>${r.l}</small><b>${r.v}</b>${r.s?`<small>${r.s}</small>`:''}</div>`).join('')}
+function tab(i,b){document.querySelectorAll('section').forEach(s=>s.classList.toggle('on',s.id==i));document.querySelectorAll('nav button').forEach(x=>x.classList.toggle('on',x==b));scrollTo(0,0)}
+// ---------- A ----------
+const A1={cu:[[.08,1,[.05,.06,.08,.1,.12]],[1,1.0001,[.06,.08,.1,.12,.15]]],ss:[[.1,.5,[.05,.08,.1,.12,.15]],[.5,1.0001,[.08,.1,.12,.15,.2]]],al:[[.1,.4,[.08,.08,.1,.15,.25]],[.4,1.5,[.08,.1,.12,.15,.25]],[1.5,2.5001,[.1,.12,.15,.2,.3]]]};
+const CAM=[[9,12,5,6],[6,10,3,5],[4,7,2,3],[3,5,1,2],[2,4,1,1],[1,3,1,1]];
+function calcA(){const w=n('aw'),t=n('at'),m=$('am').value,hi=$('as').value=='h';
+if(isNaN(w)||isNaN(t))return show('ra',[E('Nhập đủ chiều rộng và độ dày.')]);
+const row=A1[m].find(r=>t>=r[0]&&t<r[1]);if(!row)return show('ra',[E('Độ dày nằm ngoài phạm vi bảng của vật liệu này.')]);
+const wi=lt([50,100,200,300,590.0001],w,6);if(wi<0)return show('ra',[E('Chiều rộng ngoài phạm vi 6 ÷ 590 mm.')]);
+const out=[R('Dung sai chiều rộng','± '+f(row[2][wi])+' mm','Cho phép '+f(+(w-row[2][wi]).toFixed(3))+' ÷ '+f(+(w+row[2][wi]).toFixed(3))+' mm')];
+const ci=le([9,13,25,50,100,590],w,6);
+out.push(hi&&t<.1?E('Camber tiêu chuẩn cao áp dụng từ độ dày 0,1 mm.'):t>2.5?E('Camber chỉ có đến 2,5 mm.'):R('Camber tối đa','≤ '+CAM[ci][(hi?2:0)+(t>.6?1:0)]+' mm / 1000 mm'));
+const bi=le([.2,.5,1,1.5,2.5],t,.08);out.push(R('Bavia tối đa','≤ '+f((hi?[.01,.015,.018,.02,.03]:[.025,.03,.04,.05,.06])[bi])+' mm'));show('ra',out)}
+// ---------- B ----------
+const T1={t:[2,40,100,150],b:[12,500,1000,3600],v:[[1,1.2,1.5],[1,1.2,1.5],[1.2,1.2,2]]};
+const T2={t:[3,20,100,200],b:[15,200,1000,2000],v:[[1.5,2,2.5],[2,2,2.5],[2.5,2.5,3]]};
+const T3={t:[6,50,100,200.0001],b:[15,100,250,850],v:[[1.5,.4,1.5,.5,2],[2,.4,2,.5,2.5],[2.5,.5,2.5,.6,3]]};
+const SQ=[[.5,,,,],[1,1,,,],[1,1,1,,],[1,1,1,1,],[1,1,1,2,2],[1,1,1,2,2]];
+const BJ={2017:[[12,[.3,.7,1,1.2]],[1e9,[.5,.8,1.2,1.5]]],5052:[[40,[.3,.4,.4,.5]],[1e9,[.3,.5,.8,1]]],6061:[[12,[.3,.5,.8,1.2]],[1e9,[.3,.7,1.2,1.5]]],7075:[[1e9,[.3,.5,.7,.9]]]};
+const BO=[[[.4,.6,.8,1.3,1.7,2,2.3,2.6],[.6,.7,1,1.4,1.8,2.2,2.4,2.7],[.8,1,1.2,1.5,1.9,2.3,2.6,2.9],[1.2,1.2,1.4,1.6,2,2.4,2.7,3],[1.4,1.5,1.6,1.7,2.1,2.5,2.8,3.1]],
+[[.3,.5,.7,1,1.4,1.7,2,2.3],[.4,.6,1,1.2,1.5,1.8,2.1,2.4],[.7,1,1.2,1.4,1.7,2,2.3,2.6],[1,1.1,1.4,1.6,1.9,2.1,2.4,2.7],[1.3,1.4,1.6,1.8,2.1,2.3,2.5,2.7]]];
+function bUI(){const m=$('bm').value,p=$('bf').value=='p',ca=p&&(m=='cu'||m=='al');
+$('bo').classList.toggle('h',!ca);$('bt').classList.toggle('h',!(ca&&m=='al'&&$('bj').value=='j'));
+$('bp').classList.toggle('h',!(m=='be'||(m=='ss'&&p)))}
+function calcB(){const m=$('bm').value,p=$('bf').value=='p',t=n('bT'),w=n('bW'),l=n('bL');
+if([t,w,l].some(isNaN))return show('rb',[E('Nhập đủ độ dày, chiều rộng và chiều dài.')]);
+const T=(m=='be'||(m=='ss'&&p))?T3:(p?T1:T2),name=T==T3?'Bảng 3':T==T1?'Bảng 1':'Bảng 2';
+const ti=lt(T.t.slice(1),t,T.t[0]),out=[];
+if(ti<0)out.push(E('Độ dày / đường kính ngoài phạm vi '+name+' ('+T.t[0]+' ÷ '+f(Math.floor(T.t[3]))+' mm).'));
+else[['rộng',w],['dài',l]].forEach(([k,v])=>{const c=lt(T.b.slice(1),v,T.b[0]);
+if(c<0)return out.push(E('Chiều '+k+' ngoài phạm vi '+name+' ('+T.b[0]+' ÷ '+T.b[3]+' mm).'));
+let x;if(T==T3){x=T.v[ti][c*2+(+$('bg').value)];if(x==null||(c==2&&$('bg').value=='1'))return out.push(E('Chiều '+k+': bảng 3 không có gia công bán tinh cho 250 ÷ <850 mm.'))}else x=T.v[ti][c];
+out.push(R('Dung sai chiều '+k+' ('+name+')','± '+f(x)+' mm'))});
+if(!p)return show('rb',out);
+const L=Math.max(w,l),W=Math.min(w,l);
+const a=le([300,600,900,1200,1500,2500],L,0),b=le([300,600,900,1200,1500],W,0);
+out.push(a<0||b<0?E('Độ vuông góc chỉ có cho cạnh dài ≤ 2500 mm, rộng ≤ 1500 mm.'):SQ[a][b]==null?E('Độ vuông góc: tổ hợp dài × rộng này không có trong bảng.'):R('Độ vuông góc (hiệu 2 đường chéo, máy cắt tấm)','≤ '+f(SQ[a][b])+' mm'));
+out.push(R('Độ song song (máy cắt tấm)','≤ 0,1 mm / 100 mm','Cạnh '+f(L)+' mm: ≤ '+f(+(L/1000).toFixed(3))+' mm · cạnh '+f(W)+' mm: ≤ '+f(+(W/1000).toFixed(3))+' mm'));
+const jp=$('bj').value=='j';
+if(m=='al'&&jp){const ty=$('ba').value,r=BJ[ty].find(x=>t<x[0]);const lo={2017:3,5052:3,6061:3,7075:3}[ty];
+const li=le([500,750,1000,1e9],L,50);out.push(t<lo||li<0||!r?E('Độ cong nhôm Nhật: cần dày ≥ 3 mm và dài ≥ 50 mm.'):R('Độ cong tối đa (nhôm Nhật '+ty+')','≤ '+f(r[1][li])+' mm'))}
+else if(m=='cu'&&jp||m=='ss'||m=='be')out.push(E('Quy định chưa có tiêu chuẩn độ cong cho vật liệu / xuất xứ này.'));
+else{const g=t<=30?0:t<=150?1:-1,ri=le([100,300,750,1250,1525],W,15),di=le([100,300,750,1250,1750,2000,2500,3050],L,15);
+out.push(g<0||ri<0||di<0?E('Độ cong (xuất xứ khác): dày ≤ 150, rộng 15 ÷ 1525, dài 15 ÷ 3050 mm.'):R('Độ cong tối đa (nhôm, đồng xuất xứ khác)','≤ '+f(BO[g][ri][di])+' mm',g?'Dày 30 < T ≤ 150 mm':'Dày T ≤ 30 mm'))}
+show('rb',out)}
+// ---------- C ----------
+function cUI(){$('ct').classList.toggle('h',$('cp').value=='4')}
+function calcC(){const s=+$('cm').value,six=$('cp').value=='6',l=n('cl'),w=n('cw'),out=[];
+if(isNaN(l)||isNaN(w)||(six&&isNaN(n('cd'))))return show('rc',[E('Nhập đủ kích thước.')]);
+[['dài',l],['rộng',w]].forEach(([k,v])=>{const i=le([50,700,1000,1e9],v,0);
+out.push(R('Dung sai kích thước chiều '+k+' ('+f(v)+' mm)','± '+f([[.1,.15],[.05,.2],[.1,.3],[.2,.3]][i][s])+' mm'));
+out.push(i>1?E('Chiều '+k+': vuông góc và song song không áp dụng khi > 700 mm.'):R('Vuông góc / song song chiều '+k,'≤ '+f([[.1,.3],[.02,.15]][i][s])+' / ≤ '+f([[.1,.15],[.02,.2]][i][s])+' mm / 100 mm','Vuông góc / song song'))});
+if(six){const d=n('cd');out.push(d>270?E('Phay 6 mặt: chiều dày chỉ có đến 270 mm.'):R('Góc T mặt trên, dưới so với 4 mặt cạnh','≤ '+f([[.2,.3],[.15,.2]][d<=50?0:1][s])+' mm / 100 mm'))}
+out.push(R('Độ nhám bề mặt',s?'Ra 3.2':'Ra 1.6'));show('rc',out)}
+bUI();if('serviceWorker' in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('sw.js');
+</script></body></html>
