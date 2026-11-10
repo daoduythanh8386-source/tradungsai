@@ -1,8 +1,0 @@
-{
-  "appId": "com.tradungsai.app",
-  "appName": "TraDungSai",
-  "webDir": "www",
-  "server": {
-    "androidScheme": "https"
-  }
-}
