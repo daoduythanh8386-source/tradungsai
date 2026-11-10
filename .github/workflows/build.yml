@@ -1,39 +1,75 @@
-name: Build Electron & Capacitor App
+name: Build EXE & APK
 
 on:
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
+  workflow_dispatch:
 
 jobs:
-  build:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest]
-        node-version: [20.x]
-
+  build-windows:
+    name: Build Windows .exe
+    runs-on: windows-latest
     steps:
-      - name: Checkout code
+      - name: Lấy mã nguồn
         uses: actions/checkout@v4
 
-      - name: Set up Node.js ${{ matrix.node-version }}
+      - name: Cài Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
-          cache: 'npm'
+          node-version: 20
 
-      - name: Install dependencies
+      - name: Cài thư viện
         run: npm install
-
-      - name: Build application
-        run: npm run build
         env:
           CI: false
 
-      - name: Upload build artifacts
+      - name: Build .exe
+        run: npm run build:exe
+        env:
+          CI: false
+
+      - name: Lưu tệp .exe
         uses: actions/upload-artifact@v4
         with:
-          name: build-${{ matrix.os }}
-          path: dist/
+          name: TraDungSai-Setup-Windows
+          path: dist/*.exe
+
+  build-android:
+    name: Build Android .apk
+    runs-on: ubuntu-latest
+    steps:
+      - name: Lấy mã nguồn
+        uses: actions/checkout@v4
+
+      - name: Cài Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Cài Java & Android SDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Cài thư viện
+        run: npm install
+        env:
+          CI: false
+
+      - name: Cập nhật Capacitor
+        run: |
+          npx cap init "TraDungSai" com.tradungsai.app --web-dir=www --force || true
+          npx cap add android || true
+          npx cap sync android
+
+      - name: Build APK
+        run: |
+          cd android
+          ./gradlew assembleDebug
+
+      - name: Lưu tệp .apk
+        uses: actions/upload-artifact@v4
+        with:
+          name: TraDungSai-APK-Android
+          path: android/app/build/outputs/apk/debug/app-debug.apk
