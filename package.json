@@ -1,4 +1,30 @@
-{"name":"dung-sai-oristar","version":"1.0.0","description":"Tra cuu dung sai Oristar","author":"Dao Duy Thanh","main":"electron/main.js",
-"scripts":{"start":"electron .","exe":"electron-builder --win nsis --publish never"},
-"build":{"appId":"vn.oristar.dungsai","productName":"Dung sai Oristar","files":["electron/**","www/**"],"win":{"target":"nsis","icon":"www/icon-512.png"}},
-"devDependencies":{"electron":"^31.0.0","electron-builder":"^24.13.3","@capacitor/core":"^6.1.0","@capacitor/cli":"^6.1.0","@capacitor/android":"^6.1.0","@capacitor/ios":"^6.1.0"}}
+{
+  "name": "tradungsai",
+  "version": "1.0.0",
+  "description": "Ứng dụng tra cứu dung sai tiêu chuẩn xuất",
+  "main": "electron/main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder"
+  },
+  "dependencies": {
+    "@capacitor/core": "^6.0.0"
+  },
+  "devDependencies": {
+    "electron": "^33.2.0",
+    "electron-builder": "^25.1.8",
+    "@capacitor/cli": "^6.0.0"
+  },
+  "build": {
+    "appId": "com.tradungsai.app",
+    "productName": "TraDungSai",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "electron/**/*",
+      "www/**/*",
+      "package.json"
+    ]
+  }
+}
