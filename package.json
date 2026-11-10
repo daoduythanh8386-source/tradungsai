@@ -1,19 +1,22 @@
 {
   "name": "tradungsai",
   "version": "1.0.0",
-  "description": "Ứng dụng tra cứu dung sai tiêu chuẩn xuất",
+  "description": "Tra cứu dung sai Oristar - TQM.QĐ02-03",
   "main": "electron/main.js",
   "scripts": {
     "start": "electron .",
-    "build": "electron-builder"
+    "build:exe": "electron-builder --win",
+    "build:apk": "npx cap sync && npx cap build android",
+    "build:all": "npm run build:exe && npm run build:apk"
   },
   "dependencies": {
-    "@capacitor/core": "^6.0.0"
+    "@capacitor/core": "^6.1.2"
   },
   "devDependencies": {
     "electron": "^33.2.0",
     "electron-builder": "^25.1.8",
-    "@capacitor/cli": "^6.0.0"
+    "@capacitor/cli": "^6.1.2",
+    "@capacitor/android": "^6.1.2"
   },
   "build": {
     "appId": "com.tradungsai.app",
@@ -25,6 +28,15 @@
       "electron/**/*",
       "www/**/*",
       "package.json"
-    ]
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "www/icon-512.png"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeDirectory": true,
+      "createDesktopShortcut": true
+    }
   }
 }
